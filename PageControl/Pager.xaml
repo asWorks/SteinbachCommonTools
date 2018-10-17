@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="PageControl.Pager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="300">
+    <Grid>
+        <StackPanel Name="spPager" Orientation="Horizontal">
+            <Button Content="--" Width="20" Height="30" Click="Button_Click"></Button>
+            <Button Content="-" Width="20" Height="30" Click="Button_Click" ></Button>
+            <Button Content="+" Width="20" Height="30" Click="Button_Click"></Button>
+            <Button Content="++" Width="20" Height="30" Click="Button_Click"></Button>
+            <TextBlock Name="tbRecordsShown" Text="Datensätze x bis xx von xx" Height="30"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

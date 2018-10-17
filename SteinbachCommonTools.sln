@@ -1,0 +1,83 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTools", "CommonTools\CommonTools.csproj", "{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{9F42497F-6D4D-415F-BA4C-BBAB55023A32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{7F5D0A1A-4C7D-4665-9441-859B57B6D4D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libc1DatagridTools", "libc1DatagridTools\libc1DatagridTools.csproj", "{F043F133-0417-4312-A6A2-6C80840A5976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "asOutlookMail", "libSendOutlookMail\asOutlookMail.csproj", "{7B1D422F-9D63-44E8-8AB2-72901F795FFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PageControl", "PageControl\PageControl.csproj", "{64A6CA24-91E4-4F20-8F55-3A46675AFF6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserControls", "UserControls", "{A8032286-6331-470D-8142-1A56026A0EFF}"
+	ProjectSection(SolutionItems) = preProject
+		UserControls\BetragWaehrung.xaml = UserControls\BetragWaehrung.xaml
+		UserControls\BetragWaehrung.xaml.cs = UserControls\BetragWaehrung.xaml.cs
+		UserControls\FilteredComboBox.xaml = UserControls\FilteredComboBox.xaml
+		UserControls\FilteredComboBox.xaml.cs = UserControls\FilteredComboBox.xaml.cs
+		UserControls\FilteredComboBox_Extended.xaml = UserControls\FilteredComboBox_Extended.xaml
+		UserControls\FilteredComboBox_Extended.xaml.cs = UserControls\FilteredComboBox_Extended.xaml.cs
+		UserControls\FilteredComboBoxChangedEventArgs.cs = UserControls\FilteredComboBoxChangedEventArgs.cs
+		UserControls\FilteredTextBox.xaml = UserControls\FilteredTextBox.xaml
+		UserControls\FilteredTextBox.xaml.cs = UserControls\FilteredTextBox.xaml.cs
+		UserControls\FilteredTextBoxNeu.xaml = UserControls\FilteredTextBoxNeu.xaml
+		UserControls\FilteredTextBoxNeu.xaml.cs = UserControls\FilteredTextBoxNeu.xaml.cs
+		UserControls\LabelAndCheckbox.xaml = UserControls\LabelAndCheckbox.xaml
+		UserControls\LabelAndCheckbox.xaml.cs = UserControls\LabelAndCheckbox.xaml.cs
+		UserControls\LabelAndCurrency.xaml = UserControls\LabelAndCurrency.xaml
+		UserControls\LabelAndCurrency.xaml.cs = UserControls\LabelAndCurrency.xaml.cs
+		UserControls\LabelAndDatepicker.xaml = UserControls\LabelAndDatepicker.xaml
+		UserControls\LabelAndDatepicker.xaml.cs = UserControls\LabelAndDatepicker.xaml.cs
+		UserControls\LabelAndText.xaml = UserControls\LabelAndText.xaml
+		UserControls\LabelAndText.xaml.cs = UserControls\LabelAndText.xaml.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Converter", "Converter", "{4D256419-8C06-44B9-8AAD-E1346F4BB788}"
+	ProjectSection(SolutionItems) = preProject
+		Converter\TeilnehmerSI_StringConverter.cs = Converter\TeilnehmerSI_StringConverter.cs
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E386DF0-C97B-4483-9A9A-522A6EA5B97D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F42497F-6D4D-415F-BA4C-BBAB55023A32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5D0A1A-4C7D-4665-9441-859B57B6D4D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5D0A1A-4C7D-4665-9441-859B57B6D4D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5D0A1A-4C7D-4665-9441-859B57B6D4D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5D0A1A-4C7D-4665-9441-859B57B6D4D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F043F133-0417-4312-A6A2-6C80840A5976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F043F133-0417-4312-A6A2-6C80840A5976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F043F133-0417-4312-A6A2-6C80840A5976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F043F133-0417-4312-A6A2-6C80840A5976}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1D422F-9D63-44E8-8AB2-72901F795FFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1D422F-9D63-44E8-8AB2-72901F795FFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1D422F-9D63-44E8-8AB2-72901F795FFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1D422F-9D63-44E8-8AB2-72901F795FFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A6CA24-91E4-4F20-8F55-3A46675AFF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A6CA24-91E4-4F20-8F55-3A46675AFF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A6CA24-91E4-4F20-8F55-3A46675AFF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A6CA24-91E4-4F20-8F55-3A46675AFF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF5CA695-CF76-41F0-A356-007DFE959ABC}
+	EndGlobalSection
+EndGlobal
