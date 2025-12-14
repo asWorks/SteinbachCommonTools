@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Office.Tools.Outlook;
-using Microsoft.Office.Interop.Outlook;
-using Office = Microsoft.Office.Core;
 using System.Runtime.InteropServices;
-using Microsoft.Office.Interop.Word;
 
 
 
@@ -28,96 +24,98 @@ namespace asOutlookMail
 
         public static void sendmail(string address, string subject, string message)
         {
-
-            MailItem mailItem = null;
-            Microsoft.Office.Interop.Outlook.TaskItem taskItem = null;
-            int counter = 0;
+            object mailItem = null;
+            object myApp = null;
 
             try
             {
-                Microsoft.Office.Interop.Outlook.Application myApp = new Microsoft.Office.Interop.Outlook.Application();
+                // create Outlook Application via late binding so no interop assembly is required at compile time
+                var prog = System.Type.GetTypeFromProgID("Outlook.Application");
+                myApp = Activator.CreateInstance(prog);
 
-
-                //  ae = new AddressEntry
-
-
-                mailItem = ((MailItem)myApp.CreateItem((OlItemType.olMailItem)));
-                mailItem.Subject = subject;
-
-                mailItem.To = address;
-                mailItem.Body = message;
+                // olMailItem == 0
+                mailItem = myApp.GetType().InvokeMember("CreateItem", System.Reflection.BindingFlags.InvokeMethod, null, myApp, new object[] { 0 });
+                mailItem.GetType().GetProperty("Subject")?.SetValue(mailItem, subject);
+                mailItem.GetType().GetProperty("To")?.SetValue(mailItem, address);
+                mailItem.GetType().GetProperty("Body")?.SetValue(mailItem, message);
 
                 // Send the email to the customer
-                ((_MailItem)mailItem).Send();
-
+                mailItem.GetType().InvokeMember("Send", System.Reflection.BindingFlags.InvokeMethod, null, mailItem, null);
             }
-
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-
                 throw;
-
-
+            }
+            finally
+            {
+                // release COM objects to avoid leaving Outlook process running
+                try { if (mailItem != null) Marshal.ReleaseComObject(mailItem); } catch { }
+                mailItem = null;
+                try { if (myApp != null) Marshal.ReleaseComObject(myApp); } catch { }
+                myApp = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
 
 
         }
 
 
-        public static void sendmail(string address, string subject, string TextMessage, string HTMLMessage, string[] Attachments, MessageType Type)
+            public static void sendmail(string address, string subject, string TextMessage, string HTMLMessage, string[] Attachments, MessageType messageType)
         {
 
-            MailItem mailItem = null;
-            Microsoft.Office.Interop.Outlook.TaskItem taskItem = null;
-            int counter = 0;
+            object mailItem = null;
+            object myApp = null;
 
             try
             {
-                Microsoft.Office.Interop.Outlook.Application myApp = new Microsoft.Office.Interop.Outlook.Application();
+                var prog = System.Type.GetTypeFromProgID("Outlook.Application");
+                myApp = Activator.CreateInstance(prog);
 
+                // olMailItem == 0
+                mailItem = myApp.GetType().InvokeMember("CreateItem", System.Reflection.BindingFlags.InvokeMethod, null, myApp, new object[] { 0 });
+                mailItem.GetType().GetProperty("Subject")?.SetValue(mailItem, subject);
+                mailItem.GetType().GetProperty("To")?.SetValue(mailItem, address);
 
-                //  ae = new AddressEntry
-
-
-                mailItem = ((MailItem)myApp.CreateItem((OlItemType.olMailItem)));
-                mailItem.Subject = subject;
-
-                mailItem.To = address;
-                
-
-
-                if (Type == MessageType.html)
+                if (messageType == MessageType.html)
                 {
-                    mailItem.HTMLBody = HTMLMessage;
+                    mailItem.GetType().GetProperty("HTMLBody")?.SetValue(mailItem, HTMLMessage);
                 }
-                else if (Type == MessageType.text)
+                else if (messageType == MessageType.text)
                 {
-                    mailItem.Body = TextMessage;
+                    mailItem.GetType().GetProperty("Body")?.SetValue(mailItem, TextMessage);
                 }
 
-                if (Attachments.Length > 0)
+                if (Attachments != null && Attachments.Length > 0)
                 {
                     foreach (string item in Attachments)
                     {
-                        
-                      //  Attachment att = new Attachment(item);
-                        mailItem.Attachments.Add(item);
-
+                        // add attachment explicitly using late-binding
+                        var attachments = mailItem.GetType().GetProperty("Attachments")?.GetValue(mailItem);
+                        if (attachments != null)
+                        {
+                            // olByValue == 1
+                            attachments.GetType().InvokeMember("Add", System.Reflection.BindingFlags.InvokeMethod, null, attachments, new object[] { item, 1, System.Type.Missing, System.Type.Missing });
+                        }
                     }
                 }
 
-
                 // Send the email to the customer
-                ((_MailItem)mailItem).Send();
-
+                mailItem.GetType().InvokeMember("Send", System.Reflection.BindingFlags.InvokeMethod, null, mailItem, null);
             }
-
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-
                 throw;
-
-
+            }
+            finally
+            {
+                // release COM objects to avoid leaving Outlook process running
+                try { if (mailItem != null) Marshal.ReleaseComObject(mailItem); } catch { }
+                mailItem = null;
+                try { if (myApp != null) Marshal.ReleaseComObject(myApp); } catch { }
+                myApp = null;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
 
 
@@ -160,62 +158,72 @@ namespace asOutlookMail
         {
             try
             {
+                // create Outlook Application via late binding
+                var prog = System.Type.GetTypeFromProgID("Outlook.Application");
+                object application = Activator.CreateInstance(prog);
 
+                // The Namespace Object (Session) has a collection of accounts.
+                object session = application.GetType().GetProperty("Session")?.GetValue(application);
+                object accounts = session?.GetType().GetProperty("Accounts")?.GetValue(session);
 
-                Microsoft.Office.Interop.Outlook.Application application = new Microsoft.Office.Interop.Outlook.Application();
-
-                // The Namespace Object (Session) has a collection of accounts. 
-                Accounts accounts = application.Session.Accounts;
-
-                // Concatenate a message with information about all accounts. 
+                // Concatenate a message with information about all accounts.
                 StringBuilder builder = new StringBuilder();
 
-                // Loop over all accounts and print detail account information. 
-                // All properties of the Account object are read-only. 
-                foreach (Account account in accounts)
+                if (accounts != null)
                 {
-
-                    // The DisplayName property represents the friendly name of the account. 
-                    builder.AppendFormat("DisplayName: {0}\n", account.DisplayName);
-
-                    // The UserName property provides an account-based context to determine identity. 
-                    builder.AppendFormat("UserName: {0}\n", account.UserName);
-
-                    // The SmtpAddress property provides the SMTP address for the account. 
-                    builder.AppendFormat("SmtpAddress: {0}\n", account.SmtpAddress);
-
-                    // The AccountType property indicates the type of the account. 
-                    builder.Append("AccountType: ");
-                    switch (account.AccountType)
+                    foreach (object account in (System.Collections.IEnumerable)accounts)
                     {
+                        try
+                        {
+                            var displayName = account.GetType().GetProperty("DisplayName")?.GetValue(account) as string;
+                            var userName = account.GetType().GetProperty("UserName")?.GetValue(account) as string;
+                            var smtp = account.GetType().GetProperty("SmtpAddress")?.GetValue(account) as string;
+                            var acctTypeObj = account.GetType().GetProperty("AccountType")?.GetValue(account);
 
-                        case OlAccountType.olExchange:
-                            builder.AppendLine("Exchange");
-                            break;
+                            builder.AppendFormat("DisplayName: {0}\n", displayName);
+                            builder.AppendFormat("UserName: {0}\n", userName);
+                            builder.AppendFormat("SmtpAddress: {0}\n", smtp);
 
-                        case OlAccountType.olHttp:
-                            builder.AppendLine("Http");
-                            break;
+                            builder.Append("AccountType: ");
+                            int acctType = acctTypeObj != null ? Convert.ToInt32(acctTypeObj) : -1;
+                            switch (acctType)
+                            {
+                                case 0:
+                                    builder.AppendLine("Exchange");
+                                    break;
+                                case 1:
+                                    builder.AppendLine("Http");
+                                    break;
+                                case 2:
+                                    builder.AppendLine("Imap");
+                                    break;
+                                case 3:
+                                    builder.AppendLine("Other");
+                                    break;
+                                case 4:
+                                    builder.AppendLine("Pop3");
+                                    break;
+                                default:
+                                    builder.AppendLine("Unknown");
+                                    break;
+                            }
 
-                        case OlAccountType.olImap:
-                            builder.AppendLine("Imap");
-                            break;
-
-                        case OlAccountType.olOtherAccount:
-                            builder.AppendLine("Other");
-                            break;
-
-                        case OlAccountType.olPop3:
-                            builder.AppendLine("Pop3");
-                            break;
+                            builder.AppendLine();
+                        }
+                        finally
+                        {
+                            try { if (account != null) Marshal.ReleaseComObject(account); } catch { }
+                        }
                     }
-
-                    builder.AppendLine();
                 }
 
-                // Display the account information. 
-                return builder.ToString();
+                // release session and application
+                try { if (accounts != null) Marshal.ReleaseComObject(accounts); } catch { }
+                try { if (session != null) Marshal.ReleaseComObject(session); } catch { }
+                try { if (application != null) Marshal.ReleaseComObject(application); } catch { }
 
+                // Display the account information.
+                return builder.ToString();
             }
             catch (System.Exception ex)
             {

@@ -221,6 +221,10 @@
       <Project>{7f5d0a1a-4c7d-4665-9441-859b57b6d4d1}</Project>
       <Name>DataTypes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\libSendOutlookMail\asOutlookMail.csproj">
+      <Project>{7b1d422f-9d63-44e8-8ab2-72901f795ffe}</Project>
+      <Name>asOutlookMail</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
