@@ -34,6 +34,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C1.WPF.4">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="C1.WPF.DateTimeEditors.4, Version=4.0.20113.210, Culture=neutral, PublicKeyToken=2aa4ec5576d6c3ce, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
